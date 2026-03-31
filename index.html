@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nova Set Up - Turnos</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #58a6ff;
+    }
+
+    p {
+      text-align: center;
+      color: #c9d1d9;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      background: #58a6ff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #1f6feb;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      color: #3fb950;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Nova Set Up</h1>
+  <p>Solicitá tu turno para servicio técnico</p>
+
+  <form action="https://formspree.io/f/mgopkjyg" method="POST">
+
+    <!-- ocultos -->
+    <input type="hidden" name="_captcha" value="false">
+
+    <input type="text" name="nombre" placeholder="Nombre y apellido" required>
+
+    <input type="tel" name="telefono" placeholder="Teléfono / WhatsApp" required>
+
+    <input type="email" name="email" placeholder="Correo electrónico">
+
+    <textarea name="direccion" placeholder="Dirección (si es a domicilio)"></textarea>
+
+    <select name="servicio" required>
+      <option value="">Servicio</option>
+      <option>Limpieza de PC</option>
+      <option>Mantenimiento</option>
+      <option>Armado de PC</option>
+      <option>Optimización</option>
+      <option>Diagnóstico</option>
+    </select>
+
+    <select name="equipo" required>
+      <option value="">Tipo de equipo</option>
+      <option>PC de escritorio</option>
+      <option>Notebook</option>
+    </select>
+
+    <textarea name="problema" placeholder="¿Qué problema tiene o qué querés hacer?" required></textarea>
+
+    <input type="date" name="fecha" required>
+
+    <select name="horario" required>
+      <option value="">Horario</option>
+      <option>Mañana</option>
+      <option>Tarde</option>
+      <option>Noche</option>
+    </select>
+
+    <select name="urgente">
+      <option value="">¿Es urgente?</option>
+      <option>Sí</option>
+      <option>No</option>
+    </select>
+
+    <button type="submit">Enviar solicitud</button>
+
+  </form>
+
+  <div class="success" id="successMsg">
+    ✅ ¡Solicitud enviada! Te vamos a contactar en breve.
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector("form");
+  const successMsg = document.getElementById("successMsg");
+
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      form.reset();
+      successMsg.style.display = "block";
+    } else {
+      alert("Hubo un error al enviar el formulario");
+    }
+  });
+</script>
+
+</body>
+</html>
